@@ -1,6 +1,5 @@
 var Patient = require('../models/patient')
 var async = require('async')
-const uuidv1 = require('uuid/v1');
 
 exports.query_patient = function (req, res, next) {
     Patient.find()
