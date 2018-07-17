@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  
+  ul
+  each appointment in appointment_list
+    li 
+      a(href=appointment.url) #{appointment.time_format} 
+
+  else
+    li There are no Appointments.

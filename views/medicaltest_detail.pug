@@ -1,0 +1,17 @@
+extends layout
+
+block content
+
+  h1 Medicaltest on #{medicaltest.time_format}
+
+  p #[strong Patient:] 
+    a(href=patient.url) #{patient.name}    
+  p #[strong Date of birth:] #{patient.date_of_birth_yyyy_mmm_dd}
+  p #[strong Gender:] #{patient.gender}
+  p #[strong Medicaltest Notes:] #{medicaltest.notes}
+ 
+  hr
+  p
+    a(href=medicaltest.url+'/update') Update 
+  p
+    a(href=medicaltest.url+'/delete') Delete

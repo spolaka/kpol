@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  
+  ul
+  each patient in patient_list
+    li 
+      a(href=patient.url) #{patient.name} 
+      | (#{patient.age})
+
+  else
+    li There are no patients.

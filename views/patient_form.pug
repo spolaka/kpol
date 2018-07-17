@@ -1,0 +1,73 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='first_name') First Name:
+      input#first_name.form-control(type='text', placeholder='First name (givenname)' name='first_name' required='true' value=(undefined===patient ? '' : patient.first_name) )
+      label(for='family_name') Family Name:
+      input#family_name.form-control(type='text', placeholder='Family name (surname)' name='family_name' required='true' value=(undefined===patient ? '' : patient.family_name))
+    div.form-group
+      label(for='date_of_birth') Date of birth:
+      input#date_of_birth.form-control(type='date', name='date_of_birth' value=(undefined===patient ? '' : patient.date_of_birth_yyyy_mm_dd) )
+    div.form-group
+      label(for='gender') Gender:
+      select#gender.form-control(type='select', placeholder='Select Gender' name='gender' required='true' )
+        for gender in ["male", "female"]
+          if patient
+            option(value=gender selected=(patient.gender==gender ? 'selected' : false) ) #{gender}
+          else
+            option(value=gender) #{gender}
+    div.form-group
+      label(for='address') Address:
+      input#address.form-control(type='text', placeholder='House number and street' name='address' value=(undefined===patient ? '' : patient.address) )
+      label(for='city') City:
+      input#city.form-control(type='text', placeholder='Hyderabad' name='city' value=(undefined===patient ? '' : patient.city) )
+      label(for='state') State:
+      input#state.form-control(type='text', placeholder='Telangana' name='state' value=(undefined===patient ? '' : patient.state) )
+      label(for='pincode') Pincode:
+      input#state.form-control(type='text', placeholder='500001' name='pincode' pattern="\\d{6}" value=(undefined===patient ? '' : patient.pincode) )
+    div.form-group
+      label(for='phone') Phone:
+      input#state.form-control(type='tel', placeholder='0000000000' name='phone' pattern="\\d{10}" value=(undefined===patient ? '' : patient.phone) )
+      label(for='home_phone') Alternate Phone:
+      input#state.form-control(type='tel', placeholder='0000000000' name='home_phone' pattern="\\d{10}" value=(undefined===patient ? '' : patient.home_phone) )
+      label(for='email') E-mail:
+      input#state.form-control(type='email', placeholder='email@email.com' name='email' value=(undefined===patient ? '' : patient.email) )
+    div.form-group
+      label(for='marital_status') Marital Status:
+      select#gender.form-control(type='select', placeholder='Select Marital Status' name='marital_status' required='true' )
+        for marital_status in ["unknown" , "unmarried", "married"]
+          if patient
+            option(value=marital_status selected=(patient.marital_status==marital_status ? 'selected' : false) ) #{marital_status}
+          else
+            option(value=marital_status) #{marital_status}
+    fieldset
+      div#legand
+          legend Emergerncy Contact
+      div.form-group
+        label(for='emergency_contat.name') Name:
+        input#address.form-control(type='text', placeholder='FirstName LastName' name='emergency_contat[name]' value=(undefined===patient ? '' : patient.emergency_contat.name) )
+        label(for='emergency_contat.phone') Phone:
+        input#state.form-control(type='tel', placeholder='0000000000' name='emergency_contat[phone]' pattern="\\d{10}" value=(undefined===patient ? '' : patient.emergency_contat.phone) )
+    fieldset
+      div#legand
+          legend Insurance Details
+      div.form-group
+        label(for='insurance.name') Name:
+        input#address.form-control(type='text', placeholder='Insurence Provider' name='insurance[name]' value=(undefined===patient ? '' : patient.insurance.name) )
+        label(for='insurance.address') Phone:
+        input#state.form-control(type='textarea', name='insurance[address]' value=(undefined===patient ? '' : patient.insurance.address) )
+        label(for='insurance.id') ID:
+        input#address.form-control(type='text', name='insurance[id]' value=(undefined===patient ? '' : patient.insurance.id) )
+        label(for='insurance.notes') Notes:
+        input#state.form-control(type='textarea', name='insurance[notes]' value=(undefined===patient ? '' : patient.insurance.notes) )    
+    
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg

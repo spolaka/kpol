@@ -1,4 +1,6 @@
 var Patient = require('../models/patient')
+var Medicaltest = require('../models/medicaltest')
+var Appointment = require('../models/appointment')
 var async = require('async')
 
 exports.query_patient = function (req, res, next) {
@@ -6,8 +8,25 @@ exports.query_patient = function (req, res, next) {
         .sort([['family_name', 'ascending']])
         .exec(function (err, list_patients) {
             if (err) { return next(err); }
-            res.send( { patient_list : list_patients });
+            res.render('patient_list', { title: 'Patient List', patient_list: list_patients });
         })
+};
+
+exports.patient_create = function (req, res, next) {
+    res.render('patient_form', { title: 'Create Patient' });
+};
+
+exports.patient_update = function (req, res, next) {
+
+    Patient.findById(req.params.id, function (err, patient) {
+        if (err) { return next(err); }
+        if (patient == null) { // No results.
+            var err = new Error('Patient not found');
+            err.status = 404;
+            return next(err);
+        }
+        res.render('patient_form', { title: 'Update Patient', patient: patient });
+    });
 };
 
 exports.new_patient = function (req, res, next) {
@@ -37,7 +56,7 @@ exports.new_patient = function (req, res, next) {
         });
     patient.save(function (err) {
         if (err) { return next(err); }
-        res.send({pid : patient._id});
+        res.redirect(patient.url);
     });
 
 };
@@ -59,11 +78,11 @@ exports.get_patient = function (req, res, next) {
     }, function (err, results) {
         if (err) { return next(err); } // Error in API usage.
         if (results.patient == null) { // No results.
-            var err = new Error('Author not found');
+            var err = new Error('Patient not found');
             err.status = 404;
             return next(err);
         }
-        res.send({patient : patient , patient_appointments: patient_appointments , patient_medicaltests : patient_medicaltests });        
+        res.render('patient_detail', { title: 'Patient Detail', patient : results.patient , patient_appointments: results.patient_appointments , patient_medicaltests : results.patient_medicaltests });     
     });
 };
 
@@ -96,7 +115,7 @@ exports.update_patient = function (req, res, next) {
         });
     Patient.findByIdAndUpdate(req.params.id, patient, {}, function (err, npatient) {
             if (err) { return next(err); }
-            res.send({pid : npatient._id});
+            res.redirect(npatient.url);
         });
 
 };

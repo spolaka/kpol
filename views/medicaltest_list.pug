@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  
+  ul
+  each medicaltest in medicaltest_list
+    li 
+      a(href=medicaltest.url) #{medicaltest.time_format} 
+
+  else
+    li There are no Appointments.

@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #[em Patient Portal], a very basic Patients portal website developed for Kiran Polaka.
+
+
+  h1 Overview 
+
+  if error
+    p Error getting Overview.
+  else
+
+    p The portal has the following record counts:
+
+    ul
+      li #[strong Patients:] !{data.patient_count}
+      li #[strong Appointments:] !{data.appointment_count}
+      li #[strong MedicalTests:] !{data.medicaltest_count} 

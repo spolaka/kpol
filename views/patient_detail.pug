@@ -1,0 +1,56 @@
+extends layout
+
+block content
+
+  h1 Patient: #{patient.name}
+  p #[strong Date of birth:] #{patient.date_of_birth_yyyy_mmm_dd}
+  p #[strong Gender:] #{patient.gender}
+  p(style='white-space:pre;') #[strong Address:] #{patient.address}
+    |
+    |                  #{patient.city} 
+    |                  #{patient.state}
+    |                  #{patient.pincode}
+  p #[strong Phone:] #{patient.phone} , #{patient.home_phone}
+  p #[strong E-mail:] #{patient.email}
+  p #[strong Marital Status:] #{patient.marital_status}
+  p #[strong Emergency Contact:] #{patient.emergency_contat.name} , #{patient.emergency_contat.phone} 
+  p(style='white-space:pre;') #[strong Insurance:] #{patient.insurance.name}
+    |
+    |                    #{patient.insurance.address}    
+    |                    #{patient.insurance.id}  
+    |                    #{patient.insurance.notes}  
+  
+  hr
+  div(style='margin-left:20px;margin-top:20px')
+
+    h4 Appointments
+    
+    dl
+    each appointment in patient_appointments
+      dt 
+        a(href=appointment.url) #{appointment.time}
+      dd #{appointment.notes}
+
+    else
+      p This patient has no appointments.
+
+    hr
+
+    h4 Medical Tests    
+    
+    dl
+    each medicaltest in patient_medicaltests
+      dt 
+        a(href=medicaltest.url) #{medicaltest.time}
+      dd #{medicaltest.notes}
+
+    else
+      p This patient has no medical tests.
+      
+  hr
+  p
+    a(href=patient.url+'/update') Update 
+  p
+    a(href='/doctor/appointment/create?patientid=' + patient._id) New Appointment
+  p
+    a(href='/doctor/medicaltest/create?patientid=' + patient._id) New Test

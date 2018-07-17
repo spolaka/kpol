@@ -1,0 +1,17 @@
+extends layout
+
+block content
+
+  h1 Appointment on #{appointment.time_format}
+
+  p #[strong Patient:] 
+    a(href=patient.url) #{patient.name}    
+  p #[strong Date of birth:] #{patient.date_of_birth_yyyy_mmm_dd}
+  p #[strong Gender:] #{patient.gender}
+  p #[strong Appointment Notes:] #{appointment.notes}
+ 
+  hr
+  p
+    a(href=appointment.url+'/update') Update 
+  p
+    a(href=appointment.url+'/delete') Delete
