@@ -55,13 +55,11 @@ PatientSchema
   return moment(this.date_of_birth).format('MMMM Do YYYY');
 });
 
-
 PatientSchema
 .virtual('age')
 .get(function () {
   return null===this.date_of_birth ? 'UnKnown' : Math.floor((Date.now() - this.date_of_birth.getTime()) / (1000 * 3600 * 24 * 365));;
 });
-
 
 // Export model.
 module.exports = mongoose.model('Patient', PatientSchema);
